@@ -1,0 +1,5 @@
+[run]
+branch = true
+include = frontera_seedloader_mongodb/*
+omit =
+	tests/*

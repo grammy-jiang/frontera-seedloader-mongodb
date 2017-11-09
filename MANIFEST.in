@@ -1,0 +1,2 @@
+include versioneer.py
+include frontera_seedloader_mongodb/_version.py
