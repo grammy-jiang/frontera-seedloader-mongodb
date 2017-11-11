@@ -1,0 +1,5 @@
+frontera
+pymongo
+scrapy
+twisted
+txmongo

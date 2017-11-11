@@ -34,8 +34,9 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[
+        'frontera',
+        'scrapy>=1.4.0',
         'txmongo',
-        'scrapy>=1.4.0'
     ],
     extras_require=extras_require,
 )
