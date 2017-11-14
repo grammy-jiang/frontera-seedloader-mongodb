@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 class MongoDBSeedLoader(SeedLoader):
     def configure(self, settings: Settings):
-        self.settings = self.crawler.settings
+        self.settings = settings
         self.uri = get_mongodb_uri(self.settings)
         self.codec_options = DEFAULT_CODEC_OPTIONS.with_options(
             unicode_decode_error_handler='ignore')
