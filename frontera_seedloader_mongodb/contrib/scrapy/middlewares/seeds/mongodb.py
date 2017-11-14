@@ -49,7 +49,9 @@ class MongoDBSeedLoader(SeedLoader):
                 self.prepare = load_object(
                     self.settings.get(SEEDS_MONGODB_SEEDS_PREPARE))
             else:
-                self.prepare = lambda x: map(lambda y: (y, x), x['websites'])
+                self.prepare = lambda x: map(
+                    lambda y: (y, {'seed': x}),
+                    x['websites'])
         except:
             raise NotConfigured
 
@@ -69,7 +71,7 @@ class MongoDBSeedLoader(SeedLoader):
 
     def process_start_requests(self, start_requests, spider: Spider):
         yield from starmap(
-            lambda x, y: Request(url=x, meta={'seed': y}),
+            lambda x, y: Request(url=x, meta=y),
             chain(*map(self.prepare, self.load_seeds())))
 
     def load_seeds(self) -> Cursor:

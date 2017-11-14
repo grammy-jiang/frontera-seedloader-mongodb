@@ -172,8 +172,29 @@ MongoDB.
 The input will be the document queried from the collection set in
 ``SEEDS_MONGODB_COLLECTION``, and the output should be a iterator which will
 return tuples with two elements: ``(url, doc)``. The ``url`` will be the
-argument ``url`` of ``Request``, and the ``doc`` will be the value of the key
-``seed`` of ``request.meta``.
+argument ``url`` of ``Request``, and the ``doc`` will be given to
+``request.meta``.
+As an example, the default function in this middleware::
+
+    class MongoDBSeedLoader(SeedLoader):
+
+        ...
+
+        def open_spider(self, spider: Spider):
+            try:
+                if self.settings.get(SEEDS_MONGODB_SEEDS_PREPARE):
+                    self.prepare = load_object(
+                        self.settings.get(SEEDS_MONGODB_SEEDS_PREPARE))
+                else:
+                    self.prepare = lambda x: map(
+                        lambda y: (y, {'seed': x}),
+                        x['websites'])
+            except:
+                raise NotConfigured
+
+            ...
+
+        ...
 
 NOTE
 ====
