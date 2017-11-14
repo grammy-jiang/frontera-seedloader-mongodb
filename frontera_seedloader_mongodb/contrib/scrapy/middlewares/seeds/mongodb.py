@@ -82,8 +82,11 @@ class MongoDBSeedLoader(SeedLoader):
                     SEEDS_MONGODB_SEEDS_QUERY, {}
                 ).get('filter')
             ))
-        return self.coll.find(
-            **self.settings.get(SEEDS_MONGODB_SEEDS_QUERY, {})
-        ).batch_size(
+
+        query = self.settings.get(
+            SEEDS_MONGODB_SEEDS_QUERY, {}
+        ).update({'no_cursor_timeout': True})
+
+        return self.coll.find(**query).batch_size(
             self.settings.get(SEEDS_MONGODB_SEEDS_BATCH_SIZE, 100)
         )
