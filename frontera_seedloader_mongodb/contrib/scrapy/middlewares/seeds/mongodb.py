@@ -53,17 +53,11 @@ class MongoDBSeedLoader(SeedLoader):
         except:
             raise NotConfigured
 
-        self.cnx = MongoClient(
-            self.uri,
-            # no_cursor_timeout=False,
-            # codec_options=self.codec_options
-        )
+        self.cnx = MongoClient(self.uri)
         self.db = self.cnx.get_database(
             self.settings.get(SEEDS_MONGODB_DATABASE, 'seeds'))
         self.coll = self.db.get_collection(
             self.settings.get(SEEDS_MONGODB_COLLECTION, 'seeds'))
-
-        # self.coll.with_options(codec_options=self.codec_options)
 
         logger.info('Spider opened: Open the connection to MongoDB: %s',
                     self.uri)
@@ -79,6 +73,13 @@ class MongoDBSeedLoader(SeedLoader):
             chain(*map(self.prepare, self.load_seeds())))
 
     def load_seeds(self) -> Cursor:
+        logger.info(
+            'There are %d seeds.',
+            self.coll.count(
+                self.settings.get(
+                    SEEDS_MONGODB_SEEDS_QUERY, {}
+                ).get('filter')
+            ))
         return self.coll.find(
             **self.settings.get(SEEDS_MONGODB_SEEDS_QUERY, {})
         ).batch_size(

@@ -49,13 +49,13 @@ Or put this middleware just beside the scrapy project.
 Documentation
 =============
 
-Set Seed Loader in ``SPIDERMIDDLEWARES`` in ``settings.py``, for example::
+Set Seed Loader in ``SPIDER_MIDDLEWARES`` in ``settings.py``, for example::
 
     # -----------------------------------------------------------------------------
     # FRONTERA SEEDLOADER MONGODB ASYNC
     # -----------------------------------------------------------------------------
 
-    SPIDERMIDDLEWARES.update({
+    SPIDER_MIDDLEWARES.update({
         'frontera_seedloader_mongodb.contrib.scrapy.middlewares.seeds.mongodb.MongoDBAsyncSeedLoader': 500,
     })
 
@@ -179,13 +179,9 @@ NOTE
 ====
 
 The database drivers may have different api for the same operation, this
-seed loader adopts txmongo as the async driver for MongoDB. If you want to
+seed loader adopts pymongo as the sync driver for MongoDB. If you want to
 customize this seed loader, please read the following documents for more
 details.
-
-* `Welcome to TxMongo’s documentation!`_
-
-.. _`Welcome to TxMongo’s documentation!`: https://txmongo.readthedocs.io/en/latest/
 
 * `pymongo – Python driver for MongoDB`_
 
@@ -194,4 +190,5 @@ details.
 TODO
 ====
 
-* split the MongoDB to backback, make this seed load more flexible
+* add an async way to load the seed from MongoDB
+* split the MongoDB to backend, make this seed load more flexible
