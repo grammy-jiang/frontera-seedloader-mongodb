@@ -75,12 +75,12 @@ class MongoDBSeedLoader(SeedLoader):
 
     def process_start_requests(self, start_requests, spider: Spider):
         yield from starmap(
-            lambda x, y: Request(url=x, meta=y),
+            lambda x, y: Request(url=x, meta={'seed': y}),
             chain(*map(self.prepare, self.load_seeds())))
 
     def load_seeds(self) -> Cursor:
         return self.coll.find(
             **self.settings.get(SEEDS_MONGODB_SEEDS_QUERY, {})
         ).batch_size(
-            self.settings.get(SEEDS_MONGODB_SEEDS_BATCH_SIZE, 1000)
+            self.settings.get(SEEDS_MONGODB_SEEDS_BATCH_SIZE, 100)
         )

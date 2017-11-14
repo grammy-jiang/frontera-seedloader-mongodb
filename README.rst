@@ -149,6 +149,20 @@ the following documents for more details.
 
 .. _`collection – Collection level operations — PyMongo 3.5.1 documentation`: http://api.mongodb.com/python/current/api/pymongo/collection.html#pymongo.collection.Collection.find
 
+SEEDS_MONGODB_SEEDS_BATCH_SIZE
+------------------------------
+
+A int of The batch size that each query will return.
+
+SEEDS_MONGODB_SEEDS_PREPARE
+---------------------------
+
+A function to process the task (seed) from MongoDB. The input will be the
+document queried from the collection set in ``SEEDS_MONGODB_COLLECTION``, and
+the output should be a iterator which will return tuples with two elements:
+``(url, doc)``. The ``url`` will be the argument ``url`` of ``Request``, and the
+``doc`` will be the value of the key ``seed`` of ``request.meta``.
+
 NOTE
 ====
 

@@ -70,4 +70,4 @@ class TestFileSeedLoader(TestCase):
             self.assertIsInstance(request, Request)
             doc = self.coll.find_one({'websites': request.url})
             self.assertIn(request.url, doc['websites'])
-            self.assertDictEqual(request.meta, doc)
+            self.assertDictEqual(request.meta['seed'], doc)
