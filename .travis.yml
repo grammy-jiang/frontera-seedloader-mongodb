@@ -33,7 +33,10 @@ after_success:
 cache:
   directories:
   - "$HOME/.cache/pip"
+services: mongodb
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: grammy.jiang
+  password:
+    secure: iJ1MMLl8HnsEjjYSYPlyw6M48BvgbEedK3t+3cTJZtByL/dCoO5eMk/P7eKZpOmL352Dide8bh6PddpeQ8+KsFEo6m36zaHsWk381WR6KX9eNw/Pj2Et56XWeJ/USSw107AEB1FXrFz7L5DtBJ5oC05bYjKiG/LJBOqNJzmUUhXS6Cgt2+eVnQXMEaxm0eKetpHCww+HK+r8Cx95A57YrRLh8/C6GePQqKCMvGGe/9sMKBfZyazgvvRbtV1iPhZ7bzD3p8wU9Yezk8lQ8QcDmoqgDoUcIAOPKRKPKnpennr4vOkpRgv3ciyxdruKmnlFhblN1Um49zHb8bngHn+vt6OYNwpfnGCuIbC+/U2OP/GUxaeIhnQz0QgcJU4aYKqrNPi9vnDe/4aCsAP7ATFeQJoaj2RPkQRKHz4izvJZFlq4ce49u9a0anVWU8bAkhF9O8MWfo8c/DZwLmTptEElVNzf2ZDepozNGPbUYNVQVl5o99FgxzwfCCeazCVnn9pANGs8/+7UDmEePQW5sq70LRxgjI7Muv1U263T+hNZDHdKzPgP3gtVvVxyWJi85E/ioXIg7VSxoSwh02Whha/hB2sxa6vOerKKWHEe9TSgkt9L1Q+g4RllzS+Yer+oAl7Zel7EpbkZfg36FpdMD8YTAjrkdj3YFXh3XDa+RGa6EH0=
