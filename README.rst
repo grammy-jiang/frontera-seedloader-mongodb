@@ -22,7 +22,7 @@ Overview
 ========
 
 Frontera is a great framework for broad crawling, especially working with
-scrapy. This package provides a seed loader from MongoDB in a async ways for
+scrapy. This package provides a seed loader from MongoDB in a sync ways for
 frontera:
 
 * Querying seeds can be customized
@@ -30,7 +30,7 @@ frontera:
 Requirements
 ============
 
-* Txmongo, a async MongoDB driver with Twisted
+* pymongo
 
 * Tests on Python 3.5
 
@@ -67,6 +67,13 @@ Set Seed Loader in ``SPIDERMIDDLEWARES`` in ``settings.py``, for example::
     SEEDS_MONGODB_COLLECTION = 'test_mongodb_async_coll'
 
     # SEEDS_MONGODB_OPTIONS_ = 'SEEDS_MONGODB_OPTIONS_'
+
+    SEEDS_MONGODB_SEEDS_QUERY = {
+        'filter': {'websites': {'$exists': 1}}
+    }
+    SEEDS_MONGODB_SEEDS_BATCH_SIZE = 1000
+
+    SEEDS_MONGODB_SEEDS_PREPARE = 'scrapy_project.utils.seeds_prepara'
 
 Settings Reference
 ==================
@@ -130,20 +137,22 @@ SEEDS_MONGODB_SEEDS_QUERY
 A dictionary as the keyword arguments to query. The default value is::
 
    SEEDS_MONGODB_SEEDS_QUERY = {
-      'filter': None,
-      'projection': None,
-      'skip': 0,
-      'limit': 0,
-      'sort': None
+       'filter': None,
+       'projection': None,
+       'skip': 0,
+       'limit': 0,
+       'no_cursor_timeout': False,
+       'cursor_type': CursorType.NON_TAILABLE,
+       'sort': None,
+       'allow_partial_results': False,
+       'oplog_replay': False,
+       'modifiers': None,
+       'manipulate': True
    }
 
 The keys and values in this setting is followed the keyword arguments of the
-method ``find_with_cursor`` of the collection in ``txmongo``. Please refer to
+method ``find`` of ``collection`` in ``pymongo``. Please refer to
 the following documents for more details.
-
-* `txmongo package — TxMongo 16.1.0 documentation`_
-
-.. _`txmongo package — TxMongo 16.1.0 documentation`: https://txmongo.readthedocs.io/en/latest/txmongo.html#txmongo.collection.Collection.find_with_cursor
 
 * `collection – Collection level operations — PyMongo 3.5.1 documentation`_
 
@@ -152,16 +161,19 @@ the following documents for more details.
 SEEDS_MONGODB_SEEDS_BATCH_SIZE
 ------------------------------
 
-A int of The batch size that each query will return.
+A int of The batch size that each query will return, the default value is 100.
 
 SEEDS_MONGODB_SEEDS_PREPARE
 ---------------------------
 
-A function to process the task (seed) from MongoDB. The input will be the
-document queried from the collection set in ``SEEDS_MONGODB_COLLECTION``, and
-the output should be a iterator which will return tuples with two elements:
-``(url, doc)``. The ``url`` will be the argument ``url`` of ``Request``, and the
-``doc`` will be the value of the key ``seed`` of ``request.meta``.
+A string of the module path to the function to process the task (seed) from
+MongoDB.
+
+The input will be the document queried from the collection set in
+``SEEDS_MONGODB_COLLECTION``, and the output should be a iterator which will
+return tuples with two elements: ``(url, doc)``. The ``url`` will be the
+argument ``url`` of ``Request``, and the ``doc`` will be the value of the key
+``seed`` of ``request.meta``.
 
 NOTE
 ====

@@ -13,6 +13,7 @@ setup(
     description='',
     long_description=open('README.rst').read(),
     author='Grammy Jiang',
+    author_mail='grammy.jiang@gmail.com',
     maintainer='Grammy Jiang',
     maintainer_email='grammy.jiang@gmail.com',
     license='BSD',
